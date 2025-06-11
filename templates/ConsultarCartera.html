@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Carteras</title>
+    <link rel="stylesheet" href="static/estilos.css">
+</head>
+<body>
+<header>ARTES PERUANOS</header>
+
+<div class="fondo">
+    <div class="encabezado">Listado de Carteras Hechas a Mano</div>
+    
+    <form method="POST" action="/BuscarCartera">
+        <label>Tipo de Cartera</label>
+        <select name="txttipocartera" required>
+            <option value="">------------------------------------------------------------------------------------------------------------------------------------------------------</option>
+            {% for tipo in tipos %}
+            <option value="{{ tipo.CODTIPCAR }}">{{ tipo.NOMBTIPCAR }}</option>
+            {% endfor %}
+        </select>
+        <div class="botones">
+            <button type="submit">Buscar</button>
+        </div>
+    </form>
+    <br>
+    <table class="tabla">
+        <thead>
+            <tr>
+                <th>Código Cartera</th>
+                <th>Descripción</th>
+                <th>Tipo Cartera</th>
+                <th>Precio</th>
+                <th>Fecha de Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in cartera %}
+            <tr>
+                <td>{{ c.codcar }}</td>
+                <td>{{ c.descripcar }}</td>
+                <td>{{ c.nombtipcar }}</td>
+                <td>s/{{ c.preciocar }}</td>
+                <td>{{ c.fechacar }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <div class="botones">
+        <button type="button" onclick="location.href='/'">Regresar</button>
+    </div>
+</div>
+</body>
+</html>
