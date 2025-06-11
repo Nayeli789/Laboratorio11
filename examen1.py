@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
+import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
+# Carpeta para subir archivos (si aplica)
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
 def db_connection():
     return mysql.connector.connect(
-        host="localhost",
+        host="localhost",  # ⚠️ CAMBIA esto si usas una BD remota
         user="root",
         password="",
         database="bdexamen"
@@ -66,15 +70,10 @@ def ConsultarCartera():
     conn.close()
     return render_template('ConsultarCartera.html', tipos=tipos, cartera=cartera)
 
+# Bloque único para ejecutar la app
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Crear carpeta de subida si no existe
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
 
-
-
-
-import os
-
-if __name__ == '__main__':
-    if not os.path.exists(app.config ['UPLOAD_FOLDER']):
-        os.makedirs(app.config [ 'UPLOAD_FOLDER'])
-    app.run(debug=True, host="0.0.0.0", port=os.getenv("PORT", default=5000))
+    app.run(debug=True, host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
